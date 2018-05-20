@@ -11,4 +11,6 @@ mongoose.connect("mongodb://milan:Sasken%401989@ds115712.mlab.com:15712/milandb"
   console.log("Exception in connection",e);
 });
 
+//mongoose.connect("mongodb://localhost/TodoApp");
+
 module.exports = {mongoose};
