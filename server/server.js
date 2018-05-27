@@ -98,7 +98,7 @@ app.patch('/todos/:id',(req,res)=>{
 
   Todo.findByIdAndUpdate(id,{
     $set:body
-  },{new:false}).then((todo)=>{
+  },{new:true}).then((todo)=>{
     if(!todo){
       return res.status(404).send();
     }
@@ -111,6 +111,39 @@ app.patch('/todos/:id',(req,res)=>{
 
 app.listen(port,()=>{
   console.log(`Started up at port ${port}`);
+});
+
+// app.post('/users',(req,res)=>{
+//   let body = _.pick(req.body,['email','password']);
+//   var user = new User(body);
+//
+//   user.save().then(()=>{
+//     console.log("User saved");
+//     return res.send(user);
+//   }).catch((e)=>{
+//     return res.status(401).send();
+//   })
+//
+// });
+
+app.post('/users',(req,res)=>{
+  let body = _.pick(req.body,['email','password']);
+  var user = new User(body);
+
+  // user.save().then(()=>{
+  //   console.log("User saved");
+  //   return res.send(user);
+  // }).catch((e)=>{
+  //   return res.status(401).send();
+  // });
+
+  user.generateAuthToken().then((token)=>{
+  res.send(user);
+}).catch((e)=>{
+  console.log("exception",e);
+  return res.status(401).send();
+});
+
 });
 
 module.exports = {app};
